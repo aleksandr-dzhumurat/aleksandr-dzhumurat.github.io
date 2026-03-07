@@ -174,12 +174,40 @@
             border-radius: 8px;
             border: 1px solid var(--line);
             margin-bottom: 64px;
+            display: flex;
+            gap: 28px;
+            align-items: flex-start;
+        }
+
+        .about-photo {
+            flex-shrink: 0;
+            width: 140px;
+        }
+
+        .about-photo img {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            object-fit: cover;
+            object-position: top center;
+            aspect-ratio: 3/4;
+            display: block;
         }
 
         .about p {
             font-size: 1.05rem;
             line-height: 1.8;
             color: var(--text);
+        }
+
+        @media (max-width: 640px) {
+            .about {
+                flex-direction: column;
+            }
+
+            .about-photo {
+                width: 100px;
+            }
         }
 
         /* ── Section ── */
@@ -391,6 +419,43 @@
         .carousel-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
+        }
+
+        /* ── Experience layout ── */
+        .experience-layout {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        .experience-photo {
+            flex-shrink: 0;
+            width: 160px;
+        }
+
+        .experience-photo img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            object-fit: cover;
+            object-position: top center;
+            aspect-ratio: 3/4;
+            display: block;
+        }
+
+        .experience-carousel-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        @media (max-width: 640px) {
+            .experience-layout {
+                flex-direction: column;
+            }
+
+            .experience-photo {
+                width: 120px;
+            }
         }
 
         /* ── Skills ── */
@@ -693,6 +758,9 @@
 
         <!-- About -->
         <div class="about reveal">
+            <div class="about-photo">
+                <img src="img/linkedin_profile.jpg" alt="Aleksandr Dzhumurat">
+            </div>
             <p>Experienced ML engineer with a strong track record of delivering end-to-end solutions and pipelines for
                 data science projects with a focus on quality and software engineering best practices. Passionate about
                 building ML solutions from scratch and transforming business needs into ML tasks. Extensive expertise in
