@@ -1,479 +1,621 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aleksandr Dzhumurat - ML Engineer</title>
+    <title>Aleksandr Dzhumurat — ML Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --primary: #1a1a2e;
-            --secondary: #0f3460;
-            --accent: #e94560;
-            --text: #2d2d2d;
-            --text-light: #6b6b6b;
-            --bg: #fafafa;
-            --card: #ffffff;
-            --border: #e0e0e0;
+            --ink: #0f0f0f;
+            --text: #374151;
+            --muted: #6b7280;
+            --faint: #9ca3af;
+            --line: #e5e7eb;
+            --surface: #f9fafb;
+            --page: #ffffff;
             --mono: 'IBM Plex Mono', monospace;
-            --serif: 'Crimson Pro', serif;
+            --sans: 'Inter', sans-serif;
         }
 
-        * {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 68px;
+        }
+
         body {
-            font-family: var(--serif);
-            background: var(--bg);
+            font-family: var(--sans);
+            background: var(--page);
             color: var(--text);
             line-height: 1.7;
-            overflow-x: hidden;
+            font-size: 1rem;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Animated background gradient */
-        body::before {
-            content: '';
-            position: fixed;
+        /* ── Sticky Navigation ── */
+        .site-nav {
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(15, 52, 96, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(233, 69, 96, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line);
+            padding: 0 30px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
 
+        .nav-name {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--ink);
+            white-space: nowrap;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--ink);
+            background: var(--surface);
+        }
+
+        /* ── Layout ── */
         .container {
-            max-width: 900px;
+            max-width: 860px;
             margin: 0 auto;
-            padding: 60px 30px;
-            position: relative;
+            padding: 64px 30px 80px;
         }
 
-        /* Header Section */
+        /* ── Header ── */
         header {
-            margin-bottom: 80px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
+            margin-bottom: 64px;
+        }
+
+        .header-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--faint);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
         }
 
         h1 {
             font-family: var(--mono);
-            font-size: 3.5rem;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
             font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
+            color: var(--ink);
+            letter-spacing: -0.03em;
             line-height: 1.1;
+            margin-bottom: 6px;
         }
 
         .title {
-            font-family: var(--mono);
-            font-size: 1.1rem;
-            color: var(--accent);
-            font-weight: 500;
-            margin-bottom: 30px;
-            letter-spacing: 0.05em;
+            font-size: 1.05rem;
+            color: var(--muted);
+            font-weight: 400;
+            margin-bottom: 28px;
         }
 
         .contact {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            font-family: var(--mono);
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-top: 20px;
-        }
-
-        .contact a {
-            color: var(--secondary);
-            text-decoration: none;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .contact a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .contact a:hover {
-            color: var(--accent);
-        }
-
-        .contact a:hover::after {
-            width: 100%;
+            gap: 6px;
+            margin-top: 4px;
         }
 
         .contact-item {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--muted);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 5px 12px;
+            transition: border-color 0.2s, color 0.2s;
         }
 
-        /* About Section */
+        .contact-item:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+        }
+
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .contact-item svg {
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+
+        /* ── About ── */
         .about {
-            background: var(--card);
-            padding: 40px;
-            border-radius: 2px;
-            border-left: 4px solid var(--accent);
-            margin-bottom: 60px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.03);
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            background: var(--surface);
+            padding: 28px 32px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            margin-bottom: 64px;
         }
 
         .about p {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             line-height: 1.8;
             color: var(--text);
         }
 
-        /* Section Styles */
+        /* ── Section ── */
         section {
-            margin-bottom: 70px;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
+            margin-bottom: 72px;
         }
-
-        section:nth-of-type(2) { animation-delay: 0.3s; }
-        section:nth-of-type(3) { animation-delay: 0.4s; }
-        section:nth-of-type(4) { animation-delay: 0.5s; }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 35px;
+            gap: 14px;
+            margin-bottom: 28px;
         }
 
         .section-number {
             font-family: var(--mono);
-            font-size: 0.85rem;
-            color: var(--accent);
+            font-size: 0.72rem;
+            color: var(--faint);
             font-weight: 500;
+            letter-spacing: 0.05em;
         }
 
         h2 {
             font-family: var(--mono);
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            color: var(--primary);
-            position: relative;
+            color: var(--ink);
         }
 
         .section-header::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(to right, var(--border), transparent);
+            background: var(--line);
         }
 
-        /* Experience Items */
-        .experience-item {
-            background: var(--card);
-            padding: 35px;
-            margin-bottom: 25px;
-            border-radius: 2px;
-            border-left: 3px solid var(--border);
-            transition: all 0.3s ease;
+        /* ════════════════════════════════
+           EXPERIENCE CAROUSEL
+        ════════════════════════════════ */
+        .carousel-wrapper {
             position: relative;
         }
 
-        .experience-item:hover {
-            border-left-color: var(--accent);
-            box-shadow: 0 4px 25px rgba(0,0,0,0.05);
-            transform: translateX(4px);
+        /* Timeline strip above the card */
+        .carousel-timeline {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .timeline-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--line);
+            cursor: pointer;
+            transition: background 0.25s, transform 0.25s;
+            flex-shrink: 0;
+        }
+
+        .timeline-dot.active {
+            background: var(--ink);
+            transform: scale(1.3);
+        }
+
+        .timeline-dot:hover:not(.active) {
+            background: var(--muted);
+        }
+
+        /* Track (clips slides) */
+        .carousel-track-outer {
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        /* Individual slide */
+        .experience-slide {
+            min-width: 100%;
+            padding: 32px;
+            background: var(--page);
+            box-sizing: border-box;
         }
 
         .experience-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .job-title {
             font-family: var(--mono);
-            font-size: 1.25rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            color: var(--primary);
+            color: var(--ink);
         }
 
         .date {
             font-family: var(--mono);
-            font-size: 0.85rem;
-            color: var(--text-light);
+            font-size: 0.78rem;
+            color: var(--faint);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 3px 9px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .company {
-            font-size: 1.05rem;
-            color: var(--secondary);
-            margin-bottom: 5px;
+            font-size: 0.95rem;
+            color: var(--text);
             font-weight: 500;
+            margin-bottom: 2px;
         }
 
         .location {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            font-style: italic;
-            margin-bottom: 15px;
+            font-size: 0.83rem;
+            color: var(--faint);
+            margin-bottom: 16px;
         }
 
-        .experience-item ul {
+        .experience-slide ul {
             list-style: none;
             padding-left: 0;
+            margin-bottom: 18px;
         }
 
-        .experience-item li {
+        .experience-slide li {
             position: relative;
-            padding-left: 25px;
-            margin-bottom: 10px;
-            font-size: 1rem;
-            line-height: 1.7;
+            padding-left: 18px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--text);
         }
 
-        .experience-item li::before {
-            content: '▹';
+        .experience-slide li::before {
+            content: '·';
             position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-size: 1.2rem;
+            left: 4px;
+            color: var(--faint);
+            font-size: 1.4rem;
+            line-height: 1.25;
         }
 
         .tech-stack {
             font-family: var(--mono);
-            font-size: 0.85rem;
-            color: var(--secondary);
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border);
+            font-size: 0.78rem;
+            color: var(--faint);
+            padding-top: 14px;
+            border-top: 1px solid var(--line);
         }
 
-        /* Skills Section */
+        .tech-stack strong {
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* Carousel controls */
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 14px;
+        }
+
+        .carousel-counter {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            color: var(--faint);
+        }
+
+        .carousel-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            background: var(--page);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+        }
+
+        .carousel-btn:hover:not(:disabled) {
+            border-color: var(--ink);
+            color: var(--ink);
+            background: var(--surface);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* ── Skills ── */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
         }
 
         .skill-category {
-            background: var(--card);
-            padding: 30px;
-            border-radius: 2px;
-            border-top: 3px solid var(--accent);
+            background: var(--surface);
+            padding: 24px 28px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
         }
 
         .skill-category h3 {
             font-family: var(--mono);
-            font-size: 1rem;
-            color: var(--primary);
-            margin-bottom: 15px;
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 14px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
         }
 
         .skill-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .skill-tag {
             font-family: var(--mono);
-            font-size: 0.85rem;
-            background: var(--bg);
-            color: var(--secondary);
-            padding: 6px 14px;
-            border-radius: 2px;
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            background: var(--page);
+            color: var(--text);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--line);
+            transition: border-color 0.2s, color 0.2s;
+            cursor: default;
         }
 
         .skill-tag:hover {
-            background: var(--secondary);
-            color: white;
-            border-color: var(--secondary);
+            border-color: var(--ink);
+            color: var(--ink);
         }
 
-        /* Projects Section */
+        /* ── Projects ── */
         .projects-grid {
             display: grid;
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
         }
 
         .project-card {
-            background: var(--card);
-            padding: 35px;
-            border-radius: 2px;
-            border-left: 3px solid var(--accent);
-            transition: all 0.3s ease;
+            background: var(--surface);
+            padding: 28px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .project-card:hover {
-            box-shadow: 0 4px 25px rgba(0,0,0,0.05);
-            transform: translateY(-2px);
+            border-color: var(--ink);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
         }
 
         .project-title {
             font-family: var(--mono);
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 10px;
+            font-size: 1rem;
+            color: var(--ink);
             font-weight: 600;
         }
 
         .project-description {
-            color: var(--text);
-            margin-bottom: 15px;
-            line-height: 1.7;
+            font-size: 0.93rem;
+            color: var(--muted);
+            line-height: 1.65;
+            flex: 1;
         }
 
         .project-link {
             font-family: var(--mono);
-            font-size: 0.9rem;
-            color: var(--accent);
+            font-size: 0.82rem;
+            color: var(--ink);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            transition: gap 0.3s ease;
+            gap: 4px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 1px;
+            width: fit-content;
+            transition: gap 0.25s, border-color 0.2s;
         }
 
         .project-link:hover {
-            gap: 10px;
+            gap: 8px;
+            border-color: var(--ink);
         }
 
         .project-link::after {
             content: '→';
         }
 
-        /* Education */
+        /* ── Education ── */
         .education-item {
-            background: var(--card);
-            padding: 30px;
-            border-radius: 2px;
-            border-left: 3px solid var(--secondary);
+            background: var(--surface);
+            padding: 28px 32px;
+            border-radius: 8px;
+            border: 1px solid var(--line);
         }
 
         .degree {
             font-family: var(--mono);
-            font-size: 1.15rem;
+            font-size: 1rem;
             font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
+            color: var(--ink);
+            margin-bottom: 6px;
         }
 
         .university {
-            font-size: 1.05rem;
-            color: var(--secondary);
-            margin-bottom: 5px;
+            font-size: 0.95rem;
+            color: var(--text);
+            font-weight: 500;
+            margin-bottom: 4px;
         }
 
         .education-date {
             font-family: var(--mono);
-            font-size: 0.85rem;
-            color: var(--text-light);
+            font-size: 0.78rem;
+            color: var(--faint);
             margin-bottom: 12px;
         }
 
         .education-details {
-            font-size: 0.95rem;
-            color: var(--text);
+            font-size: 0.92rem;
+            color: var(--muted);
             line-height: 1.7;
         }
 
-        /* Footer */
+        /* ── Footer ── */
         footer {
             text-align: center;
-            padding: 40px 0;
-            margin-top: 80px;
-            border-top: 1px solid var(--border);
+            padding: 32px 0 0;
+            border-top: 1px solid var(--line);
             font-family: var(--mono);
-            font-size: 0.85rem;
-            color: var(--text-light);
+            font-size: 0.78rem;
+            color: var(--faint);
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ── Reveal animation ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
 
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
             .container {
-                padding: 40px 20px;
+                padding: 48px 20px 64px;
             }
 
-            .about {
-                padding: 30px 25px;
+            .site-nav {
+                padding: 0 20px;
             }
 
-            .experience-item {
-                padding: 25px 20px;
+            .nav-links {
+                display: none;
+            }
+
+            .about,
+            .experience-slide,
+            .education-item {
+                padding: 22px 20px;
             }
 
             .experience-header {
                 flex-direction: column;
             }
 
-            .skills-grid {
+            .projects-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .contact {
-                flex-direction: column;
-                gap: 12px;
             }
         }
 
-        /* Print Styles */
+        /* ── Print ── */
         @media print {
-            body {
-                background: white;
+
+            .site-nav,
+            .carousel-controls,
+            .carousel-timeline {
+                display: none;
             }
 
-            .container {
-                max-width: 100%;
-                padding: 20px;
+            .carousel-track-outer {
+                overflow: visible;
+                border: none;
             }
 
-            section, header, .about {
-                animation: none;
+            .carousel-track {
+                flex-direction: column;
+                transform: none !important;
+            }
+
+            .experience-slide {
+                border: 1px solid var(--line);
+                border-radius: 6px;
+                margin-bottom: 12px;
+                min-width: auto;
+            }
+
+            .reveal {
                 opacity: 1;
-                page-break-inside: avoid;
-            }
-
-            .experience-item {
-                page-break-inside: avoid;
-                box-shadow: none;
+                transform: none;
             }
 
             a {
@@ -483,162 +625,254 @@
         }
     </style>
 </head>
+
 <body>
+
+    <!-- Sticky Nav -->
+    <nav class="site-nav" aria-label="Page navigation">
+        <span class="nav-name">A. Dzhumurat</span>
+        <ul class="nav-links">
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
+
+        <!-- Header -->
         <header>
+            <div class="header-eyebrow">Resume · 2025</div>
             <h1>Aleksandr Dzhumurat</h1>
-            <div class="title">ML Engineer & Data Science Leader</div>
+            <div class="title">ML Engineer &amp; Data Science Leader</div>
             <div class="contact">
-                <div class="contact-item">📍 Belgrade, Serbia</div>
-                <div class="contact-item">📧 <a href="mailto:al.dzhumurat@gmail.com">al.dzhumurat@gmail.com</a></div>
-                <div class="contact-item">📞 <a href="tel:+381629437111">+381 629-43-71-11</a></div>
-                <div class="contact-item">💼 <a href="https://linkedin.com/in/aleksandr-dzhumurat" target="_blank">LinkedIn</a></div>
-                <div class="contact-item">💬 <a href="https://t.me/aleksandr_dzhumurat" target="_blank">Telegram</a></div>
+                <span class="contact-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    Belgrade, Serbia
+                </span>
+                <span class="contact-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    <a href="mailto:al.dzhumurat@gmail.com">al.dzhumurat@gmail.com</a>
+                </span>
+                <span class="contact-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    <a href="tel:+381629437111">+381 629-43-71-11</a>
+                </span>
+                <span class="contact-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                        <rect x="2" y="9" width="4" height="12" />
+                        <circle cx="4" cy="4" r="2" />
+                    </svg>
+                    <a href="https://linkedin.com/in/aleksandr-dzhumurat" target="_blank" rel="noopener">LinkedIn</a>
+                </span>
+                <span class="contact-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                    <a href="https://t.me/aleksandr_dzhumurat" target="_blank" rel="noopener">Telegram</a>
+                </span>
             </div>
         </header>
 
-        <div class="about">
-            <p>
-                Experienced ML engineer with a strong track record of delivering end-to-end solutions and pipelines for data science projects with a focus on quality and software engineering best practices. Passionate about building ML solutions from scratch and transforming business needs into ML tasks. Extensive expertise in leading teams, managing projects, and building products in ML-focused companies.
-            </p>
+        <!-- About -->
+        <div class="about reveal">
+            <p>Experienced ML engineer with a strong track record of delivering end-to-end solutions and pipelines for
+                data science projects with a focus on quality and software engineering best practices. Passionate about
+                building ML solutions from scratch and transforming business needs into ML tasks. Extensive expertise in
+                leading teams, managing projects, and building products in ML-focused companies.</p>
         </div>
 
-        <section>
+        <!-- Experience Carousel -->
+        <section id="experience">
             <div class="section-header">
-                <span class="section-number">01.</span>
+                <span class="section-number">01</span>
                 <h2>Experience</h2>
             </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Senior Data Scientist</div>
-                        <div class="company">InDrive</div>
-                        <div class="location">Belgrade, Serbia</div>
-                    </div>
-                    <div class="date">Oct 2025 - Present</div>
-                </div>
-                <ul>
-                    <li>Engineered a custom multi-agent platform from the ground up, built on PydanticAI framework</li>
-                    <li>Reporting to engineering manager</li>
-                </ul>
-                <div class="tech-stack">Stack: Pydantic-AI</div>
-            </div>
+            <div class="carousel-wrapper reveal">
+                <!-- Dot timeline -->
+                <div class="carousel-timeline" id="carousel-timeline" aria-label="Select experience entry"
+                    role="tablist"></div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Head of Data, AI & ML Generalist</div>
-                        <div class="company">Sweed</div>
-                        <div class="location">Belgrade, Serbia</div>
-                    </div>
-                    <div class="date">Mar 2024 - Aug 2025</div>
-                </div>
-                <ul>
-                    <li>Reporting directly to CEO</li>
-                    <li>Formulated the strategic vision and annual roadmap for data department (Product Analytics, Data Platform, and Reporting teams), total of 21 FTE across the teams</li>
-                    <li>Implemented several POCs, including an AI assistant for e-commerce based on RAG technique, a demand prediction MVP for inventory optimization, and a recommendation system designed and built from scratch</li>
-                    <li>Hired and onboarded a team of 1 ML engineer and 4 product analysts</li>
-                </ul>
-                <div class="tech-stack">Stack: Polars, Catboost, Dagster, Metabase</div>
-            </div>
+                <!-- Slides -->
+                <div class="carousel-track-outer">
+                    <div class="carousel-track" id="carousel-track">
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Senior Machine Learning Engineer</div>
-                        <div class="company">InDrive</div>
-                        <div class="location">Limassol, Cyprus</div>
-                    </div>
-                    <div class="date">Oct 2022 - Jan 2024</div>
-                </div>
-                <ul>
-                    <li>IC in marketplace optimization team</li>
-                    <li>Improved driver-rider matching algorithm to optimize the company's ride-hailing services, increasing rider engagement</li>
-                    <li>Enhanced classifier model with calibration procedure</li>
-                    <li>Created multiple pipelines in Kubeflow to train models on Google BigQuery data lake, automate analytics reports, and other automation tasks</li>
-                </ul>
-                <div class="tech-stack">Stack: Catboost, KubeFlow, BigQuery</div>
-            </div>
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="job-title">Senior Data Scientist</div>
+                                    <div class="company">InDrive</div>
+                                    <div class="location">Belgrade, Serbia</div>
+                                </div>
+                                <div class="date">Oct 2025 – Present</div>
+                            </div>
+                            <ul>
+                                <li>Engineered a custom multi-agent platform from the ground up, built on the PydanticAI
+                                    framework</li>
+                                <li>Reporting to engineering manager</li>
+                            </ul>
+                            <div class="tech-stack"><strong>Stack:</strong> Pydantic-AI</div>
+                        </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Lead Data Scientist</div>
-                        <div class="company">FunCorp</div>
-                        <div class="location">Limassol, Cyprus</div>
-                    </div>
-                    <div class="date">Jul 2021 - Oct 2022</div>
-                </div>
-                <ul>
-                    <li>Led a team in developing state-of-the-art recommender system based on PyTorch: feature store + offline store + Airflow for model scheduling</li>
-                    <li>Hired and onboarded a team of 4 data scientists for various ML tasks: best time and content for push, feed ranking, computer vision tasks, etc. Managed a team of 6 in total</li>
-                    <li>Designed ML experiments for increasing user retention</li>
-                    <li>Reported directly to CPO</li>
-                </ul>
-                <div class="tech-stack">Stack: PyTorch, Clickhouse, Catboost</div>
-            </div>
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="job-title">Head of Data, AI &amp; ML Generalist</div>
+                                    <div class="company">Sweed</div>
+                                    <div class="location">Belgrade, Serbia</div>
+                                </div>
+                                <div class="date">Mar 2024 – Aug 2025</div>
+                            </div>
+                            <ul>
+                                <li>Reported directly to CEO; formulated strategic vision and annual roadmap for the
+                                    data department — 21 FTE across Product Analytics, Data Platform, and Reporting</li>
+                                <li>Implemented several POCs: AI assistant for e-commerce (RAG), demand prediction MVP
+                                    for inventory optimization, and a recommendation system built from scratch</li>
+                                <li>Hired and onboarded 1 ML engineer and 4 product analysts</li>
+                            </ul>
+                            <div class="tech-stack"><strong>Stack:</strong> Polars, Catboost, Dagster, Metabase</div>
+                        </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Lead Data Scientist</div>
-                        <div class="company">ivi (Online Cinema)</div>
-                        <div class="location">Moscow, Russia</div>
-                    </div>
-                    <div class="date">Jul 2018 - Jul 2021</div>
-                </div>
-                <ul>
-                    <li>Led a team of ML engineers focused on recommending films from Russia's largest cinema catalog</li>
-                    <li>Designed and deployed a recommender system with various features (gender, content category, etc.)</li>
-                    <li>Refactored recommendation system API, optimized for 1000 RPS with 300ms latency</li>
-                    <li>Reported to ML/AI product owner</li>
-                </ul>
-                <div class="tech-stack">Stack: SQL, Spark, Airflow, Python, Redis, Docker</div>
-            </div>
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="job-title">Senior Machine Learning Engineer</div>
+                                    <div class="company">InDrive</div>
+                                    <div class="location">Limassol, Cyprus</div>
+                                </div>
+                                <div class="date">Oct 2022 – Jan 2024</div>
+                            </div>
+                            <ul>
+                                <li>IC in marketplace optimization team; improved driver-rider matching algorithm,
+                                    increasing rider engagement</li>
+                                <li>Enhanced classifier model with calibration procedure</li>
+                                <li>Created multiple Kubeflow pipelines to train models on BigQuery data lake and
+                                    automate analytics reports</li>
+                            </ul>
+                            <div class="tech-stack"><strong>Stack:</strong> Catboost, KubeFlow, BigQuery</div>
+                        </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Data Scientist</div>
-                        <div class="company">ivi (Online Cinema)</div>
-                        <div class="location">Moscow, Russia</div>
-                    </div>
-                    <div class="date">Jul 2016 - Jul 2018</div>
-                </div>
-                <ul>
-                    <li>Created Airflow pipelines and PySpark data processing workflows</li>
-                    <li>Ran experiments with LightFM model</li>
-                    <li>Analytical functions in data-driven company: Tableau report development, ad-hoc SQL reports</li>
-                </ul>
-                <div class="tech-stack">Stack: SQL, Tableau, Python</div>
-            </div>
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="job-title">Lead Data Scientist</div>
+                                    <div class="company">FunCorp</div>
+                                    <div class="location">Limassol, Cyprus</div>
+                                </div>
+                                <div class="date">Jul 2021 – Oct 2022</div>
+                            </div>
+                            <ul>
+                                <li>Led team building a state-of-the-art recommender system in PyTorch: feature store +
+                                    offline store + Airflow scheduling</li>
+                                <li>Hired and managed 6 data scientists covering push timing, feed ranking, and computer
+                                    vision tasks</li>
+                                <li>Designed ML experiments for increasing user retention; reported directly to CPO</li>
+                            </ul>
+                            <div class="tech-stack"><strong>Stack:</strong> PyTorch, Clickhouse, Catboost</div>
+                        </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Data Analyst</div>
-                        <div class="company">Vimpelcom (Telecom Operator)</div>
-                        <div class="location">Moscow, Russia</div>
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="job-title">Lead Data Scientist</div>
+                                    <div class="company">ivi (Online Cinema)</div>
+                                    <div class="location">Moscow, Russia</div>
+                                </div>
+                                <div class="date">Jul 2018 – Jul 2021</div>
+                            </div>
+                            <ul>
+                                <li>Led ML team recommending films from Russia's largest cinema catalog</li>
+                                <li>Designed and deployed a recommender system with audience-specific features (gender,
+                                    content category, etc.)</li>
+                                <li>Refactored recommendation API — optimised for 1,000 RPS at &lt;300ms latency</li>
+                            </ul>
+                            <div class="tech-stack"><strong>Stack:</strong> SQL, Spark, Airflow, Python, Redis, Docker
+                            </div>
+                        </div>
+
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="job-title">Data Scientist</div>
+                                    <div class="company">ivi (Online Cinema)</div>
+                                    <div class="location">Moscow, Russia</div>
+                                </div>
+                                <div class="date">Jul 2016 – Jul 2018</div>
+                            </div>
+                            <ul>
+                                <li>Built Airflow pipelines and PySpark data processing workflows</li>
+                                <li>Ran experiments with LightFM; developed Tableau reports and ad-hoc SQL analyses</li>
+                            </ul>
+                            <div class="tech-stack"><strong>Stack:</strong> SQL, Tableau, Python</div>
+                        </div>
+
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div>
+                                    <div class="job-title">Data Analyst</div>
+                                    <div class="company">Vimpelcom (Telecom Operator)</div>
+                                    <div class="location">Moscow, Russia</div>
+                                </div>
+                                <div class="date">Jul 2015 – Jul 2016</div>
+                            </div>
+                            <ul>
+                                <li>Developed reports on Microsoft SQL Server Reporting Services (SSRS)</li>
+                                <li>Performed data analysis for credit scoring</li>
+                            </ul>
+                            <div class="tech-stack"><strong>Stack:</strong> SQL, Microsoft Reporting Services</div>
+                        </div>
+
                     </div>
-                    <div class="date">Jul 2015 - Jul 2016</div>
                 </div>
-                <ul>
-                    <li>Developed reports on Microsoft SQL Server Reporting Services (SSRS)</li>
-                    <li>Performed data analysis for credit scoring purposes</li>
-                </ul>
-                <div class="tech-stack">Stack: SQL, Microsoft Reporting Services</div>
+
+                <!-- Controls -->
+                <div class="carousel-controls">
+                    <span class="carousel-counter" id="carousel-counter" aria-live="polite">1 / 7</span>
+                    <div class="carousel-btns">
+                        <button class="carousel-btn" id="btn-prev" aria-label="Previous" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6" />
+                            </svg>
+                        </button>
+                        <button class="carousel-btn" id="btn-next" aria-label="Next">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section>
+        <!-- Skills -->
+        <section id="skills">
             <div class="section-header">
-                <span class="section-number">02.</span>
+                <span class="section-number">02</span>
                 <h2>Skills</h2>
             </div>
             <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Technical Skills</h3>
+                <div class="skill-category reveal">
+                    <h3>Technical</h3>
                     <div class="skill-list">
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">SQL</span>
@@ -649,7 +883,7 @@
                         <span class="skill-tag">Agentic Frameworks</span>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category reveal">
                     <h3>Leadership</h3>
                     <div class="skill-list">
                         <span class="skill-tag">Team Leadership</span>
@@ -661,83 +895,131 @@
             </div>
         </section>
 
-        <section>
+        <!-- Projects -->
+        <section id="projects">
             <div class="section-header">
-                <span class="section-number">03.</span>
-                <h2>Featured Work & Projects</h2>
+                <span class="section-number">03</span>
+                <h2>Featured Work &amp; Projects</h2>
             </div>
             <div class="projects-grid">
-                <div class="project-card">
+                <div class="project-card reveal">
                     <div class="project-title">ML Crash Course (Russian)</div>
-                    <div class="project-description">
-                        Comprehensive machine learning course materials and tutorials in Russian language.
-                    </div>
+                    <div class="project-description">Comprehensive machine learning course materials and tutorials in
+                        Russian language.</div>
                     <a href="#" class="project-link">View Course</a>
                 </div>
-                <div class="project-card">
+                <div class="project-card reveal">
                     <div class="project-title">Eventally</div>
-                    <div class="project-description">
-                        Belgrade events aggregator platform for discovering local events and activities.
-                    </div>
+                    <div class="project-description">Belgrade events aggregator platform for discovering local events
+                        and activities.</div>
                     <a href="#" class="project-link">Visit Site</a>
                 </div>
             </div>
         </section>
 
-        <section>
+        <!-- Education -->
+        <section id="education">
             <div class="section-header">
-                <span class="section-number">04.</span>
+                <span class="section-number">04</span>
                 <h2>Education</h2>
             </div>
-            <div class="education-item">
+            <div class="education-item reveal">
                 <div class="degree">Master of Applied Mathematics</div>
                 <div class="university">Moscow Aviation Institute (National Research University)</div>
-                <div class="education-date">2008 - 2014</div>
+                <div class="education-date">2008 – 2014</div>
                 <div class="education-details">
-                    Average diploma: 4.6 | Thesis: "Simulation of student response time to a test to prevent fraud"
+                    GPA: 4.6 &nbsp;·&nbsp; Thesis: "Simulation of student response time to a test to prevent fraud"
                 </div>
             </div>
         </section>
 
         <footer>
-            <p>© 2025 Aleksandr Dzhumurat. Built with passion for clean code and elegant design.</p>
+            <p>© 2025 Aleksandr Dzhumurat</p>
         </footer>
+
     </div>
 
     <script>
-        // Smooth scroll for internal links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+        /* ── Carousel ── */
+        (function () {
+            const track = document.getElementById('carousel-track');
+            const timeline = document.getElementById('carousel-timeline');
+            const counter = document.getElementById('carousel-counter');
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            const slides = track.querySelectorAll('.experience-slide');
+            const total = slides.length;
+            let current = 0;
+
+            // Build dots
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'timeline-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to experience ${i + 1}`);
+                dot.setAttribute('role', 'tab');
+                dot.addEventListener('click', () => goTo(i));
+                timeline.appendChild(dot);
             });
-        });
 
-        // Add scroll reveal effect
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+            function goTo(index) {
+                current = Math.max(0, Math.min(index, total - 1));
+                track.style.transform = `translateX(-${current * 100}%)`;
+                counter.textContent = `${current + 1} / ${total}`;
+                btnPrev.disabled = current === 0;
+                btnNext.disabled = current === total - 1;
+                timeline.querySelectorAll('.timeline-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === current);
+                });
+            }
 
-        const observer = new IntersectionObserver((entries) => {
+            btnPrev.addEventListener('click', () => goTo(current - 1));
+            btnNext.addEventListener('click', () => goTo(current + 1));
+
+            // Keyboard arrows when focused inside carousel
+            document.querySelector('.carousel-wrapper').addEventListener('keydown', e => {
+                if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+            });
+
+            // Touch/swipe support
+            let startX = 0;
+            const outer = document.querySelector('.carousel-track-outer');
+            outer.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+            outer.addEventListener('touchend', e => {
+                const diff = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+            }, { passive: true });
+        })();
+
+        /* ── Scroll reveal ── */
+        const revealObs = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
+                    revealObs.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-        // Observe additional elements on scroll
-        document.querySelectorAll('.experience-item, .project-card, .skill-category').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+        /* ── Active nav link ── */
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        const navObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-30% 0px -60% 0px' });
+
+        sections.forEach(s => navObs.observe(s));
     </script>
+
 </body>
+
 </html>
