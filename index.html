@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,19 @@
             --cyan-glow: rgba(0, 229, 204, 0.12);
             --cyan-dim: rgba(0, 229, 204, 0.35);
             --red: #ff4466;
+        }
+
+        html.light {
+            --text: #1a2535;
+            --muted: #4a5a6a;
+            --faint: #8a9aaa;
+            --line: #d0dae6;
+            --surface: #f0f4f8;
+            --page: #f8fafc;
+            --cyan: #007a6e;
+            --cyan-glow: rgba(0, 122, 110, 0.10);
+            --cyan-dim: rgba(0, 122, 110, 0.30);
+            --ink: #007a6e;
         }
 
         *,
@@ -54,6 +67,37 @@
             );
             pointer-events: none;
             z-index: 9999;
+        }
+
+        html.light body::before {
+            background: none;
+        }
+
+        /* ── Theme toggle button ── */
+        .theme-toggle {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 4px 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .theme-toggle:hover {
+            color: var(--cyan);
+            border-color: var(--cyan-dim);
+            box-shadow: 0 0 10px var(--cyan-glow);
+        }
+
+        html.light .site-nav {
+            background: rgba(240, 244, 248, 0.95);
         }
 
         body {
@@ -753,6 +797,34 @@
             transform: none;
         }
 
+        /* ── Hamburger button ── */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .nav-hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--muted);
+            border-radius: 2px;
+            transition: transform 0.25s, opacity 0.25s, background 0.2s;
+        }
+
+        .nav-hamburger:hover span { background: var(--cyan); }
+
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
         /* ── Responsive ── */
         @media (max-width: 640px) {
             .container {
@@ -761,10 +833,29 @@
 
             .site-nav {
                 padding: 0 20px;
+                flex-wrap: wrap;
+                height: auto;
+                min-height: 52px;
+            }
+
+            .nav-hamburger {
+                display: flex;
             }
 
             .nav-links {
                 display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 8px 0 12px;
+                gap: 2px;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 8px 10px;
             }
 
             .about,
@@ -780,6 +871,154 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* ── Video Carousel ── */
+        .video-slide {
+            min-width: 100%;
+            padding: 24px;
+            background: var(--page);
+            box-sizing: border-box;
+        }
+
+        .video-thumb-link {
+            display: block;
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            border: 1px solid var(--line);
+            text-decoration: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .video-thumb-link:hover {
+            border-color: var(--cyan-dim);
+            box-shadow: 0 0 20px rgba(0, 229, 204, 0.12);
+        }
+
+        .video-thumb-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.82);
+            transition: filter 0.2s;
+        }
+
+        .video-thumb-link:hover img {
+            filter: brightness(1);
+        }
+
+        .video-play-btn {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .video-play-btn svg {
+            width: 64px;
+            height: 48px;
+            opacity: 0.9;
+            transition: opacity 0.2s, transform 0.2s;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+        }
+
+        .video-thumb-link:hover .video-play-btn svg {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        .talk-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 32px;
+            aspect-ratio: 16/9;
+            border-radius: 4px;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            text-decoration: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+
+        .talk-card:hover {
+            border-color: var(--cyan-dim);
+            box-shadow: 0 0 20px rgba(0, 229, 204, 0.12);
+        }
+
+        .talk-card-conf {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .talk-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .talk-card-cta {
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 8px;
+        }
+
+        /* ── Video Nav Strips ── */
+        .video-track-container {
+            display: flex;
+            align-items: stretch;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .video-track-container .carousel-track-outer {
+            flex: 1;
+            border: none;
+            border-radius: 0;
+        }
+
+        .video-nav-strip {
+            width: 44px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border: none;
+            border-right: 1px solid var(--line);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            padding: 0;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+
+        .video-nav-strip--next {
+            border-right: none;
+            border-left: 1px solid var(--line);
+        }
+
+        .video-nav-strip:hover:not(:disabled) {
+            background: var(--cyan-glow);
+            color: var(--cyan);
+            box-shadow: inset 0 0 16px var(--cyan-glow);
+        }
+
+        .video-nav-strip:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
         }
 
         /* ── Print ── */
@@ -828,19 +1067,38 @@
     <!-- Sticky Nav -->
     <nav class="site-nav" aria-label="Page navigation">
         <span class="nav-name">A. Dzhumurat</span>
-        <ul class="nav-links">
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="nav-links">
             <li><a href="#experience">Experience</a></li>
-            <li><a href="#skills">Skills</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#videos">Videos</a></li>
+            <li><a href="#skills">Skills</a></li>
             <li><a href="#education">Education</a></li>
+            <li><a href="https://aleksandr-dzhumurat.github.io/ai_product_engineer/" target="_blank" rel="noopener">🎓 ML 101</a></li>
         </ul>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg id="theme-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <span id="theme-label">Dark</span>
+        </button>
     </nav>
 
     <div class="container">
 
         <!-- Header -->
         <header>
-            <div class="header-eyebrow">Resume · 2025</div>
+            <div class="header-eyebrow">Resume · <span id="resume-year"></span></div>
             <h1>Aleksandr Dzhumurat</h1>
             <div class="title">ML Engineer &amp; Data Science Leader</div>
             <div class="contact">
@@ -912,6 +1170,13 @@
                     role="tablist"></div>
 
                 <!-- Slides -->
+                <div class="video-track-container">
+                <button class="video-nav-strip" id="btn-prev" aria-label="Previous" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
                 <div class="carousel-track-outer">
                     <div class="carousel-track" id="carousel-track">
 
@@ -927,6 +1192,7 @@
                             <ul>
                                 <li>Engineered a custom multi-agent platform from the ground up, built on the PydanticAI
                                     framework</li>
+                                <li>Automated daily standup routine with LLM-based Jira task analysis</li>
                                 <li>Reporting to engineering manager</li>
                             </ul>
                             <div class="tech-stack"><strong>Stack:</strong> Pydantic-AI</div>
@@ -1043,23 +1309,164 @@
                     </div>
                 </div>
 
+                <button class="video-nav-strip video-nav-strip--next" id="btn-next" aria-label="Next">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                </button>
+                </div>
                 <!-- Controls -->
                 <div class="carousel-controls">
                     <span class="carousel-counter" id="carousel-counter" aria-live="polite">1 / 7</span>
-                    <div class="carousel-btns">
-                        <button class="carousel-btn" id="btn-prev" aria-label="Previous" disabled>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="15 18 9 12 15 6" />
-                            </svg>
-                        </button>
-                        <button class="carousel-btn" id="btn-next" aria-label="Next">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 18 15 12 9 6" />
-                            </svg>
-                        </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>Featured Work &amp; Projects</h2>
+            </div>
+            <div class="carousel-wrapper reveal">
+                <div class="carousel-timeline" id="project-carousel-timeline" aria-label="Select project" role="tablist"></div>
+                <div class="video-track-container">
+                <button class="video-nav-strip" id="project-btn-prev" aria-label="Previous project" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
+                <div class="carousel-track-outer">
+                    <div class="carousel-track" id="project-carousel-track">
+
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div><div class="job-title">ML Crash Course (Russian)</div></div>
+                            </div>
+                            <p>Comprehensive machine learning course materials and tutorials in Russian language.</p>
+                            <div class="tech-stack">
+                                <a href="https://github.com/aleksandr-dzhumurat/ai_product_engineer/blob/main/README.md" target="_blank" rel="noopener" class="project-link">View Course →</a>
+                            </div>
+                        </div>
+
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div><div class="job-title">Mentor — Intro to AI Agents</div></div>
+                            </div>
+                            <p>Mentor on an agentic AI course in Belgrade 2026, covering practical agent design and LLM-based automation.</p>
+                            <div class="tech-stack">
+                                <a href="https://datasanity.dev/intro-to-ai-agents-belgrade-2026.html" target="_blank" rel="noopener" class="project-link">View Course →</a>
+                            </div>
+                        </div>
+
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div><div class="job-title">Eventally</div></div>
+                            </div>
+                            <p>Belgrade events aggregator platform for discovering local events and activities.</p>
+                            <div class="tech-stack">
+                                <a href="https://eventally.live/" target="_blank" rel="noopener" class="project-link">Visit Site →</a>
+                            </div>
+                        </div>
+
+                        <div class="experience-slide">
+                            <div class="experience-header">
+                                <div><div class="job-title">TG:ML Products</div></div>
+                            </div>
+                            <p>Telegram channel about ML products, applied AI, and production machine learning.</p>
+                            <div class="tech-stack">
+                                <a href="https://t.me/locomotive_production_driver" target="_blank" rel="noopener" class="project-link">Open Channel →</a>
+                            </div>
+                        </div>
+
                     </div>
+                </div>
+                <button class="video-nav-strip video-nav-strip--next" id="project-btn-next" aria-label="Next project">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                </button>
+                </div>
+                <div class="carousel-controls">
+                    <span class="carousel-counter" id="project-carousel-counter" aria-live="polite">1 / 4</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Videos -->
+        <section id="videos">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Talks &amp; Videos</h2>
+            </div>
+            <div class="carousel-wrapper reveal">
+                <div class="carousel-timeline" id="video-carousel-timeline" aria-label="Select video" role="tablist"></div>
+                <div class="video-track-container">
+                <button class="video-nav-strip" id="video-btn-prev" aria-label="Previous video" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                </button>
+                <div class="carousel-track-outer">
+                    <div class="carousel-track" id="video-carousel-track">
+
+                        <div class="video-slide">
+                            <a href="https://youtu.be/0AZsrckR0D0" target="_blank" rel="noopener" class="video-thumb-link" aria-label="Watch video 1 on YouTube">
+                                <img src="https://img.youtube.com/vi/0AZsrckR0D0/hqdefault.jpg" alt="Talk 1" loading="lazy">
+                                <div class="video-play-btn">
+                                    <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                                        <path d="M45 24L27 14v20z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="video-slide">
+                            <a href="https://www.youtube.com/watch?v=LQBVJ9iukG4&t=10815s" target="_blank" rel="noopener" class="video-thumb-link" aria-label="Watch video 2 on YouTube">
+                                <img src="https://img.youtube.com/vi/LQBVJ9iukG4/hqdefault.jpg" alt="Talk 2" loading="lazy">
+                                <div class="video-play-btn">
+                                    <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                                        <path d="M45 24L27 14v20z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="video-slide">
+                            <a href="https://www.youtube.com/watch?v=Vi-xvenUnDA" target="_blank" rel="noopener" class="video-thumb-link" aria-label="Watch video 3 on YouTube">
+                                <img src="https://img.youtube.com/vi/Vi-xvenUnDA/hqdefault.jpg" alt="Talk 3" loading="lazy">
+                                <div class="video-play-btn">
+                                    <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#ff0000"/>
+                                        <path d="M45 24L27 14v20z" fill="white"/>
+                                    </svg>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="video-slide">
+                            <a href="https://opentalks.ai/en/timetable2026#!/tab/1777397661-2" target="_blank" rel="noopener" class="video-thumb-link" aria-label="Speaker at OpenTalks AI 2026">
+                                <img src="img/open_ai_talks.png" alt="OpenTalks AI 2026 — AI-Powered Team Standup Automation" loading="lazy">
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <button class="video-nav-strip video-nav-strip--next" id="video-btn-next" aria-label="Next video">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                </button>
+                </div>
+                <div class="carousel-controls">
+                    <span class="carousel-counter" id="video-carousel-counter" aria-live="polite">1 / 4</span>
                 </div>
             </div>
         </section>
@@ -1067,7 +1474,7 @@
         <!-- Skills -->
         <section id="skills">
             <div class="section-header">
-                <span class="section-number">02</span>
+                <span class="section-number">04</span>
                 <h2>Skills</h2>
             </div>
             <div class="skills-grid">
@@ -1095,32 +1502,10 @@
             </div>
         </section>
 
-        <!-- Projects -->
-        <section id="projects">
-            <div class="section-header">
-                <span class="section-number">03</span>
-                <h2>Featured Work &amp; Projects</h2>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card reveal">
-                    <div class="project-title">ML Crash Course (Russian)</div>
-                    <div class="project-description">Comprehensive machine learning course materials and tutorials in
-                        Russian language.</div>
-                    <a href="#" class="project-link">View Course</a>
-                </div>
-                <div class="project-card reveal">
-                    <div class="project-title">Eventally</div>
-                    <div class="project-description">Belgrade events aggregator platform for discovering local events
-                        and activities.</div>
-                    <a href="#" class="project-link">Visit Site</a>
-                </div>
-            </div>
-        </section>
-
         <!-- Education -->
         <section id="education">
             <div class="section-header">
-                <span class="section-number">04</span>
+                <span class="section-number">05</span>
                 <h2>Education</h2>
             </div>
             <div class="education-item reveal">
@@ -1139,12 +1524,14 @@
         </div>
 
         <footer>
-            <p>© 2025 Aleksandr Dzhumurat</p>
+            <p>© <span id="footer-year"></span> Aleksandr Dzhumurat</p>
         </footer>
 
     </div>
 
     <script>
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+
         /* ── Carousel ── */
         (function () {
             const track = document.getElementById('carousel-track');
@@ -1188,7 +1575,103 @@
 
             // Touch/swipe support
             let startX = 0;
-            const outer = document.querySelector('.carousel-track-outer');
+            const outer = document.querySelector('#experience .carousel-track-outer');
+            outer.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+            outer.addEventListener('touchend', e => {
+                const diff = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+            }, { passive: true });
+        })();
+
+        /* ── Video Carousel ── */
+        (function () {
+            const videoTrack = document.getElementById('video-carousel-track');
+            const videoTimeline = document.getElementById('video-carousel-timeline');
+            const videoCounter = document.getElementById('video-carousel-counter');
+            const videoBtnPrev = document.getElementById('video-btn-prev');
+            const videoBtnNext = document.getElementById('video-btn-next');
+            const videoSlides = videoTrack.querySelectorAll('.video-slide');
+            const videoTotal = videoSlides.length;
+            let videoCurrent = 0;
+
+            videoSlides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'timeline-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to video ${i + 1}`);
+                dot.setAttribute('role', 'tab');
+                dot.addEventListener('click', () => goToVideo(i));
+                videoTimeline.appendChild(dot);
+            });
+
+            function goToVideo(index) {
+                videoCurrent = Math.max(0, Math.min(index, videoTotal - 1));
+                videoTrack.style.transform = `translateX(-${videoCurrent * 100}%)`;
+                videoCounter.textContent = `${videoCurrent + 1} / ${videoTotal}`;
+                videoBtnPrev.disabled = videoCurrent === 0;
+                videoBtnNext.disabled = videoCurrent === videoTotal - 1;
+                videoTimeline.querySelectorAll('.timeline-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === videoCurrent);
+                });
+            }
+
+            videoBtnPrev.addEventListener('click', () => goToVideo(videoCurrent - 1));
+            videoBtnNext.addEventListener('click', () => goToVideo(videoCurrent + 1));
+
+            document.querySelector('#videos .carousel-wrapper').addEventListener('keydown', e => {
+                if (e.key === 'ArrowLeft') { e.preventDefault(); goToVideo(videoCurrent - 1); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); goToVideo(videoCurrent + 1); }
+            });
+
+            let videoStartX = 0;
+            const videoOuter = document.querySelector('#videos .carousel-track-outer');
+            videoOuter.addEventListener('touchstart', e => { videoStartX = e.touches[0].clientX; }, { passive: true });
+            videoOuter.addEventListener('touchend', e => {
+                const diff = videoStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) goToVideo(diff > 0 ? videoCurrent + 1 : videoCurrent - 1);
+            }, { passive: true });
+        })();
+
+        /* ── Projects Carousel ── */
+        (function () {
+            const track = document.getElementById('project-carousel-track');
+            const timeline = document.getElementById('project-carousel-timeline');
+            const counter = document.getElementById('project-carousel-counter');
+            const btnPrev = document.getElementById('project-btn-prev');
+            const btnNext = document.getElementById('project-btn-next');
+            const slides = track.querySelectorAll('.experience-slide');
+            const total = slides.length;
+            let current = 0;
+
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'timeline-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', `Go to project ${i + 1}`);
+                dot.setAttribute('role', 'tab');
+                dot.addEventListener('click', () => goTo(i));
+                timeline.appendChild(dot);
+            });
+
+            function goTo(index) {
+                current = Math.max(0, Math.min(index, total - 1));
+                track.style.transform = `translateX(-${current * 100}%)`;
+                counter.textContent = `${current + 1} / ${total}`;
+                btnPrev.disabled = current === 0;
+                btnNext.disabled = current === total - 1;
+                timeline.querySelectorAll('.timeline-dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === current);
+                });
+            }
+
+            btnPrev.addEventListener('click', () => goTo(current - 1));
+            btnNext.addEventListener('click', () => goTo(current + 1));
+
+            document.querySelector('#projects .carousel-wrapper').addEventListener('keydown', e => {
+                if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+            });
+
+            let startX = 0;
+            const outer = document.querySelector('#projects .carousel-track-outer');
             outer.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
             outer.addEventListener('touchend', e => {
                 const diff = startX - e.changedTouches[0].clientX;
@@ -1235,6 +1718,64 @@
         }, { rootMargin: '-30% 0px -60% 0px' });
 
         sections.forEach(s => navObs.observe(s));
+
+        /* ── Hamburger menu ── */
+        (function () {
+            const btn = document.getElementById('nav-hamburger');
+            const menu = document.getElementById('nav-links');
+            btn.addEventListener('click', function () {
+                const open = menu.classList.toggle('open');
+                btn.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            });
+            // Close when a link is tapped
+            menu.addEventListener('click', function (e) {
+                if (e.target.tagName === 'A') {
+                    menu.classList.remove('open');
+                    btn.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        })();
+
+        /* ── Theme Toggle ── */
+        (function () {
+            const html = document.documentElement;
+            const btn = document.getElementById('theme-toggle');
+            const label = document.getElementById('theme-label');
+            const moonIcon = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+            const sunIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+            const icon = document.getElementById('theme-icon');
+
+            const saved = localStorage.getItem('theme');
+            if (saved === 'dark') setDark(); else setLight();
+
+            function setLight() {
+                html.classList.add('light');
+                label.textContent = 'Dark';
+                icon.innerHTML = sunIcon;
+            }
+
+            function setDark() {
+                html.classList.remove('light');
+                label.textContent = 'Light';
+                icon.innerHTML = moonIcon;
+            }
+
+            btn.addEventListener('click', () => {
+                if (html.classList.contains('light')) {
+                    setDark();
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    setLight();
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        })();
+    </script>
+
+    <script>
+        document.getElementById('resume-year').textContent = new Date().getFullYear();
     </script>
 
 </body>
